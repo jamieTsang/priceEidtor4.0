@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<!-- version 4.2.0.0-->
+<!-- 新功能兼容变量 fn[0]==null -->
+<html>
+<head>
+<meta charset="gb2312" />
+<title>专辑修改页</title>
+<script type="text/javascript" src="/Static/scripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/subject/edit/js/jquery.html5uploader.min.js" charset="GB2312"></script>
+<script type="text/javascript" src="/subject/edit/js/jquery.ajaxuploader.js" charset="GB2312"></script>
+<script type="text/javascript" src="/subject/edit/js/Class.GzlGlobal.js"></script>
+<script type="text/javascript" src="/Static/scripts/jquery.global.js"></script>
+<script type="text/javascript" src="/subject/edit/priceEidtor4.0/js/main.js"></script>
+<style type="text/css">
+h1 { background:#FC0;margin:8px 0;}
+p{margin:2px auto;}
+i { font-size:18px; }
+table.dataintable {
+	border: 1px solid #888888;
+	border-collapse: collapse;
+	font-family: Arial, Helvetica, sans-serif;
+	width: 100%;
+}
+table.dataintable th {
+	background-color: #CCCCCC;
+	border: 1px solid #888888;
+	padding: 5px 15px 5px 5px;
+	text-align: left;
+	vertical-align: baseline;
+	text-align:center;
+	vertical-align:top;
+}
+table.dataintable th a{
+	font-size:12px;
+}
+table.dataintable td {
+	/*background-color: #EFEFEF;*/
+	border: 1px solid #AAAAAA;
+	padding: 5px 15px 5px 5px;
+	vertical-align: text-top;
+	text-align:center;
+	vertical-align: middle;
+}
+table.dataintable td textarea.title { width:400px; }
+table.dataintable td input.price { width:70px; }
+table.dataintable td input.alink { width:400px; height:20px; }
+table.dataintable td textarea.remark{width:97%;height:65px;}
+.hover td{ background-color:#ccc !important;}
+/*table{ width:100%;}*/
+table.ambox {
+	margin: 0px;
+	border: 1px solid #AAA;
+	border-left: 10px solid dodgerBlue;
+	background: #FBFBFB;
+}
+table.ambox-content {
+	border-left: 10px solid #F28500;
+}
+p.remark{width:25%;text-align:left;float:left;margin:10px 0;margin-right:0px;}
+p.remark span{font-size:14px;}
+#loading_unit {
+	display:none;
+	border-radius: 8px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, .5),inset 0 0 60.5px rgba(225, 225, 225, .4);
+	position: fixed;
+	z-index:9999;
+	width: 310px;
+	height: auto;
+	left: 50%;
+	top: 50%;
+	margin-left: -155px;
+	margin-top: -60px;
+	background: white;
+	text-align: center;
+	font-size: 16px;
+}
+#loading_unit p{margin:0;}
+#loading_unit h1 {
+	font-size: 16px;
+	color: #555;
+	font-weight: bold;
+	padding: 0;
+	margin: 16px 0 5px 0;
+	letter-spacing: -.0125em;
+	background:none;
+}
+#loading_unit h2{
+	font-size: 12px;
+	color: #555;
+	font-weight: 400;
+	padding: 0;
+	letter-spacing: -.0125em;
+}
+#botSave{position:fixed;width:120px;height:85px;bottom:-85px;right:20px;background:#fff;text-align:center;border:1px solid #ccc;border-radius:5px 5px 0 0;box-shadow: 0px 0px 5px #ccc;}
+#botSave input{font-size:20px;margin-top:10px;}
+.create{
+	margin:5px 0;
+	height:50px;
+}
+.createBtn{
+	float:left;
+	margin:10px;
+}
+.upLoader{
+	width:150px;
+	height:50px;
+	background:#EEEEEE;
+	float:left;
+	padding:3px;
+}
+.borderBox{
+	font-size:14px;
+	line-height:22px;
+	text-align:center;
+	border:1px dashed #666666;
+}
+.borderBox p{
+	font-size:12px;
+	top:0;
+	left:0;
+}
+.checkLink{
+	font-size:12px;
+	margin-left:5px;
+}
+table.dataintable td.cols{
+	padding:0;
+	border:none;
+}
+.cols table{
+	border-collapse:collapse;
+	border:none;
+}
+.static{
+	margin-top:10px;
+	height:30px;
+	position:relative;
+	z-index:99;
+}
+.tableHead{
+	margin:0;
+	width:100%;
+	height:30px;
+	background-color:#AAAAAA;
+}
+.tableHead dt{
+	float:left;
+	height:30px;
+	line-height:30px;
+	display:block;
+	text-align:center;
+	border-right:1px solid #8a8a8a;
+	margin-left:-1px;
+}
+.tableHead dt.last{
+	border:0;
+}
+.tableHead dt a{
+	font-size:12px;
+}
+.fixed{
+	position:fixed;
+	top:0;
+	left:8px;
+	width:99%;
+}
+.isAutoCheck{
+	width:10px;
+	height:10px;
+	background:#0C0;
+	display:inline-block;
+	margin-right:5px;
+}
+</style>
+</head>
+<body>
+正在检查登录状态...
+</body>
+</html>
