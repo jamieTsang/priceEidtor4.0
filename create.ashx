@@ -69,6 +69,7 @@ public class create : IHttpHandler, IReadOnlySessionState
                             string title = "";
                             string price = "";
                             string link = "";
+                            string titleText = "";
                             Boolean isRemark =false;
                             int index = int.Parse(elem.Attribute("id").Value);                            
                             try
@@ -78,17 +79,18 @@ public class create : IHttpHandler, IReadOnlySessionState
                                 title = getReg(elem.Element("title").Value);
                                 price = elem.Element("price").Value;
                                 link = elem.Element("link").Value;
+                                titleText = Regex.Replace(title, @"<\w+>|</\w+>", "");
                             }
                             catch (Exception ex) {
                                 string exNum = Regex.Match(ex.StackTrace, "行号\\s(?<LineNumber>\\d*)").Groups["LineNumber"].Value;
                                 string exTxt = "";
                                 switch (exNum)
                                 {
-                                    case "76": exTxt = "上架"; break;
-                                    case "77": exTxt = "售罄"; break;
-                                    case "78": exTxt = "标题"; break;
-                                    case "79": exTxt = "价格"; break;
-                                    case "80": exTxt = "链接"; break;
+                                    case "77": exTxt = "上架"; break;
+                                    case "78": exTxt = "售罄"; break;
+                                    case "79": exTxt = "标题"; break;
+                                    case "80": exTxt = "价格"; break;
+                                    case "81": exTxt = "链接"; break;
                                 }
                                 context.Response.Write("data.xml文件在id号" + index + "处,缺失必要的\"" + exTxt+"\"信息！");
                                 return;
@@ -102,16 +104,18 @@ public class create : IHttpHandler, IReadOnlySessionState
                             catch { }
                             //查找线路
                             string reg = @"{line#" + index + @"}\S*[-->]*([\s\S]*){/line#" + index + @"}";
+                            Regex imgReplace = new Regex(@"([^-])\s*>");
                             if (isDisplay == "Y")
                             {
                                 string m = Regex.Match(str, reg, RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups[1].Value;
+                                m = imgReplace.Replace(m, "$1><img style=\"position:absolute\" class=\"pea_img\" data-index=\"" + index + "\" src=\"/static/images/blank.gif\"/>", 1);
                                 if (isSoldOut == "N")
                                 {
-                                    m = m.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", link + "\" onclick=\"javascript:_gaq.push(['_trackEvent','点击事次数件统计','线路链接按钮点击','" + title.Replace("\"", "") + "']);").Replace("{$linkClass}", "").Replace("{$linkTarget}", "_blank");
+                                    m = m.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", link + "\" onclick=\"javascript:_gaq.push(['_trackEvent','点击事次数件统计','线路链接按钮点击','" + titleText.Replace("\"", "") + "']);").Replace("{$linkClass}", "").Replace("{$linkTarget}", "_blank").Replace("{$titleText}", titleText);
                                 }
                                 else
                                 {
-                                    m = m.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", "javascript:void(0);").Replace("{$linkClass}", "soldOut").Replace("{$linkTarget}", "_self");
+                                    m = m.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", "javascript:void(0);").Replace("{$linkClass}", "soldOut").Replace("{$linkTarget}", "_self").Replace("{$titleText}", titleText);
                                 }
                                 if (isRemark)
                                 {
