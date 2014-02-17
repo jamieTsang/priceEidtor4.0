@@ -1,26 +1,25 @@
 ﻿/*!
- * 修改价格javascript主程序 v4.2.2
+ * 修改价格javascript主程序 v4.2.1
  * 请在jQuery环境下执行
  *
  * Copyright GZL International Travel Sevice Ltd.
  *
- * Date: Mon Feb 17 2014
+ * Date: Thu Jul 04 2013
  * Writen by jamieTsang 331252914@qq.com 
  */
 $(function () {
 	var $body=$('body');
 	var tdWidth=[37,37,80];
-	var htmlWriter = "";//alert(exp.toGMTString());
-	var p=String(window.location);
+	var htmlWriter = "";	//alert(exp.toGMTString());
 	//获取url里的?后的文件夹参数;1:为文件名;2:为锚点
 	function getURL(param) {
-		var result;
-		if(param==1&&p.match("#")){
-			result=p.match(/#(\d+)/i);
-			return result[1];
-		}else if(param==0&&p.match(/\?(\d{6}_\w+_*\w+)/i)){
-			result=p.match(/\?(\d{6}_\w+_*\w+)/i);
-			return result[1];
+		var url_para = String(window.location);
+		if(param==1&&url_para.match("#")){
+			url_para=url_para.match(/#\d+/g);
+			return url_para.toString().replace(/#/g,"");
+		}else if(param==0&&url_para.match(/\?/)){
+			url_para=url_para.match(/\?\d{6}_\w+_*\w+/g);
+			return url_para.toString().replace(/\?/g,"");
 		}else{
 			return null;
 		}
@@ -28,18 +27,9 @@ $(function () {
 	//获取#号前的url
 	function getTrueURL() {
 		var aParams = new Array();
-		aParams = p.split("#");
-		return aParams[0];
-	}
-	//获取及判断visa文件夹
-	function getVisa(){
-		var pattern=/\?visa=(\w+)/i;
-		var visa=p.match(pattern);
-		if(visa){
-			return visa[1];
-		}else{
-			return false;
-		}
+		var url_para = String(window.location);
+		url_para = url_para.split("#");
+		return url_para[0];
 	}
 	//绑定hover变色
 	function bind() {}
@@ -69,13 +59,13 @@ $(function () {
 			var models = eval("(" + json + ")");
 			var userName=models.UserName;
 			var userId=models.UserID;
-			var address = getURL(0);
+			var adress = getURL(0);
 			if (userId > 0) {
 				$.ajax({
 					type : "POST",
 					data : {
 						name : encodeURI(userName),
-						url : encodeURI(address)
+						url : encodeURI(adress)
 					},
 					url : '/subject/edit/login.aspx',
 					timeout : 20000,
@@ -102,29 +92,23 @@ $(function () {
 	});
 	//初始化，ajax读取数据
 	function creatXHR() {
-		var address;
-		if(!getVisa()){
-			address = getURL(0);
-		}else{
-			address = 'outboardvisa/'+getVisa();
-		}
-		if ((address == "" || address == null)&&!address) {
+		var adress = getURL(0);
+		if (adress == "" || adress == null) {
 			alert("参数无效！");
 		} else {
 			$.ajax({
 				type : "GET",
-				url :'/subject/' + address + '/scripts/data.xml?t='+Math.random(),
+				url : '/subject/' + adress + '/scripts/data.xml?t='+Math.random(),
 				dataType : 'xml',
 				//async: "Ture",
 				timeout : 20000,
 				error : function (XMLHttpRequest, strError, strObject) {
-					//console.log(urlString);
 					alert("亲,加载xml失败,请检查路径是否正确！");
 				},
 				success : function (xml) {
 					//获取标题名称
-					var subjectTitle = (getVisa()!=false)?('签证：'+address.substr(13)):address;
-					htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/"+address+"/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/"+address+"/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.2.1 更新日期20131125</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>1.xml文件检查；2.全选、反选功能</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
+					var subjectTitle = adress;
+					htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/"+adress+"/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/"+adress+"/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.2.1 更新日期20131125</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>1.xml文件检查；2.全选、反选功能</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
 					//获取xml版本号
 					var xmlVer = $(xml).find('version').text();
 					xmlVer = Number(xmlVer);
@@ -144,6 +128,7 @@ $(function () {
 					//填写表格头部
 					htmlWriter +="<div class='static'><dl id='tableHead' class='tableHead'><dt>编号</dt><dt>上架</dt><dt>售罄 <a href='javascript:void(0);' id='allSelected' onclick='allSelected'>全选</a> <a id='deSelected' href='javascript:void(0);'>反选</a></dt><dt>标题</dt><dt>价格</dt><dt class='last'>链接</dt></dl></div>"
 					htmlWriter += "<div id='dataintable'><table class='dataintable'><tbody>";
+					var routecode=[];
 					$(xml).find("line").each(function (i) {
 						var num = $(this).attr("id"); //获得编号
 						var display = $(this).find('display').text(); //获得是否隐藏
@@ -181,7 +166,14 @@ $(function () {
 						var price = $(this).find('price').text(); //获得价格
 						var priceHtml = "<input id='price' type='text' value='" + price + "' class='price inputType editZoom' edit-Line='"+i+"' edit-Index='3'/>";
 						var alink = $(this).find('link').text(); //获得链接
-						var alinkHtml = "<input type='url' id='alink' class='alink inputType editZoom' value='" + alink + "' edit-Line='"+i+"' edit-Index='4'/><a href='"+alink+"' target='_blank' class='checkLink'>查看链接</a>";
+						var alinkHtml="";
+						var isAutoCheck=/\/travels\/|\/Outbound\/|\/inbound\/|\/province\/|\/cruise\/|\/freetrips\//i.test(alink);
+						if(isAutoCheck){
+							routecode.push({"id":i,"code":alink.match(/\/Detail_(\d+)/i)[1]});
+							alinkHtml += '<div title="支持自动改价" class="isAutoCheck"></div>';
+						}
+						//console.log(isAutoCheck);
+						alinkHtml += "<input type='url' id='alink' class='alink inputType editZoom' value='" + alink + "' edit-Line='"+i+"' edit-Index='4'/><a href='"+alink+"' target='_blank' class='checkLink'>查看链接</a>";
 						if(getURL(1)!=null&&i==getURL(1)){
 							htmlWriter += "<tr id='L" + i + "' BGCOLOR='#FFC' class='focus'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='"+tdWidth[0]+"'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml +  "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>"+remarkHTML +"</table></td></tr>";
 						}
@@ -192,6 +184,7 @@ $(function () {
 							htmlWriter += "<tr id='L" + i + "' BGCOLOR='#F4F4F4'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='"+tdWidth[0]+"'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml + "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>"+remarkHTML +"</table></td></tr>";
 						}
 					});
+					console.log(routecode);
 					htmlWriter += "</tbody></table></div>";
 					htmlWriter += "<div id='loading_unit'><h1>正在保存...</h1><p></p><h2>如长时间无响应，请刷新页面重新保存</h2></div><div id='botSave'><input name='submit' type='button' value='一键保存' id='oneKeySave' class='submit'><button id='createBtn' class='createBtn'>生成静态页面</button></div>";
 					$body.html(htmlWriter);
@@ -274,7 +267,7 @@ $(function () {
 								line : ArarryEditor[i].line,
 								index : ArarryEditor[i].index,
 								value : encodeURI(ArarryEditor[i].value.filter()),
-								path : address
+								path : adress
 							}
 						}else{
 							dataObject={//备注框
@@ -282,7 +275,7 @@ $(function () {
 								index : ArarryEditor[i].index,
 								value : encodeURI(ArarryEditor[i].value.filter()),
 								remark : ArarryEditor[i].remark,	
-								path : address
+								path : adress
 							}
 						}
 						$.ajax({
@@ -354,7 +347,7 @@ $(function () {
 					function creatStaticFiles(){
 						$('#loading_unit p').html("<img src='/subject/edit/images/loading_bar.gif' />");
 						$.ajax({
-							data : {path:address},
+							data : {path:adress},
 							type : "POST",
 							url : 'create.ashx',
 							timeout : 50000,
@@ -387,7 +380,7 @@ $(function () {
 								timeout : 50000,
 								data:{
 									'cmd': 'moveFile',
-									'url': '/subject/' + address + '/templates/'
+									'url': '/subject/' + adress + '/templates/'
 								},
 								async: false,
 								success:function(strValue){
