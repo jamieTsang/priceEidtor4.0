@@ -1,10 +1,10 @@
 ﻿/*!
- * 修改价格javascript主程序 v4.2.2
+ * 修改价格javascript主程序 v4.2.1
  * 请在jQuery环境下执行
  *
  * Copyright GZL International Travel Sevice Ltd.
  *
- * Date: Mon Feb 17 2014
+ * Date: Tue Feb 11 2014
  * Writen by jamieTsang 331252914@qq.com 
  */
 $(function () {
