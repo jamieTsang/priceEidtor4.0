@@ -25,7 +25,7 @@ public class create : IHttpHandler, IReadOnlySessionState
         StreamReader sr = null;
         StreamWriter sw = null;
         string str = null;
-        Encoding code = Encoding.GetEncoding("utf-8");
+        Encoding code = Encoding.GetEncoding("gb2312");
         /*if (strIdentify == "identified")//判断是否登录
         {*/
             string xmlPath = "/subject/" + para + "/scripts/data.xml";
