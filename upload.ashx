@@ -54,7 +54,7 @@ public class upload : IHttpHandler, IReadOnlySessionState
             {
                 HttpPostedFile file = context.Request.Files[0];//文件
                 String fileName = System.IO.Path.GetFileNameWithoutExtension(file.FileName);//文件名
-                file.SaveAs(context.Server.MapPath("/subject/edit/temp/" + fileName + ".tpl"));
+                file.SaveAs(context.Server.MapPath("/subject/edit/temp/" + fileName + "_ext_" + System.IO.Path.GetExtension(file.FileName) + ".tpl"));
             }
             catch {
                 context.Response.Write("存储文件失败");
