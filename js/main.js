@@ -1,4 +1,4 @@
-﻿/*!
+﻿﻿/*!
  * 修改价格javascript主程序 v4.2.2
  * 请在jQuery环境下执行
  *
@@ -233,7 +233,7 @@ $(function () {
                             timeout: 20000,
                             async: false,//设置为同步，必须等待服务器返回结果后才继续执行,这个很重要
                             beforeSend: function () {
-                                Response.uiController.showLoadingBar();
+                                Response.uiController.beforeSend();
                             },
                             error: function (XMLHttpRequest, strError, strObject) {
                                 Response.resultFalure++;
@@ -301,18 +301,18 @@ $(function () {
                                 Response.uiController.showFailure();
                             },
                             beforeSend: function () {
-                                Response.uiController.showLoadingBar();
+                                Response.uiController.beforeSend();
                             },
                             success: function (strValue) {
                                 if (/True/.test(strValue) && !/False/.test(strValue)) {
                                     Response.uiController.showSuccess();
                                     setTimeout("$('#loading_unit').fadeOut(500)", 3800);
                                 } else {
-                                    Response.uiController.showFailure();
+                                    Response.uiController.showFailure(strValue);
                                 }
                             },
                             complete: function () {
-                                Response.uiController.showResult();
+                                Response.uiController.hideProgress();
                             }
                         });
                         $("#botSave").stop().animate({"bottom": -85}, 600);
@@ -342,7 +342,7 @@ $(function () {
                                     Response.uiController.showFailure(strObject);
                                 },
                                 complete: function () {
-                                    Response.uiController.showResult();
+                                    Response.uiController.hideProgress();
                                 }
                             });
                         }
