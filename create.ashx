@@ -152,11 +152,14 @@ public class create : IHttpHandler, IReadOnlySessionState
                             }
                             catch { }
                             //查找线路
-                            string reg = @"{line#" + index + @"}\S*[-->]*([\s\S]*){/line#" + index + @"}";
+                            //string reg = @"{line#" + index + @"}\S*[-->]*([\s\S]*){/line#" + index + @"}";
+                            //string reg = @"{line#" + index + @"}\S*[-->]*(.(?!{/line#" + index + @"})*)";
+                            string reg = @"(?s){line#" + index + @"}\S*[-->]*(.*?)[<!--]*{/line#" + index + @"}";
                             Regex imgReplace = new Regex(@"([^-])\s*>");
                             if (isDisplay == "Y")
                             {
-                                string m = Regex.Match(str, reg, RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups[1].Value;
+                                string m = Regex.Match(str, reg, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Multiline).Groups[1].Value;
+                                //var aaa = Regex.Match(str, reg, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Multiline).Groups[2].Value;
                                 m = imgReplace.Replace(m, "$1><img style=\"position:absolute\" class=\"pea_img\" data-index=\"" + index + "\" src=\"/static/images/blank.gif\"/>", 1);
                                 if (isSoldOut == "N")
                                 {
