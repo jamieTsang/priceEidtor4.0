@@ -177,7 +177,7 @@ public class create : IHttpHandler, IReadOnlySessionState
                             }
                             else
                             {
-                                newCode = newCode.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", "javascript:void(0);").Replace("{$linkClass}", "soldOut").Replace("{$linkTarget}", "_self").Replace("{$titleText}", titleText);
+                                newCode = newCode.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", "javascript:void(0);").Replace("{$linkClass}", "soldOut").Replace("{$linkTarget}", "_self").Replace("{$titleText}", titleText).Replace("{$linkValue}", link);
                             }
                             if (isRemark)
                             {
