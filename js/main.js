@@ -1,5 +1,5 @@
 ﻿﻿/*!
- * 修改价格javascript主程序 v4.2.2
+ * 修改价格javascript主程序 v4.3.0
  * 请在jQuery环境下执行
  *
  * Copyright GZL International Travel Sevice Ltd.
@@ -63,7 +63,7 @@ $(function () {
                 success: function (xml) {
                     //获取标题名称
                     var subjectTitle = (Page.getVisa() != false) ? ('签证：' + address.substr(13)) : address;
-                    htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/" + address + "/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/" + address + "/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.2.5 更新日期20140421</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>1.xml文件检查；2.全选、反选功能</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
+                    htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/" + address + "/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/" + address + "/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.3.0 更新日期20140427</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>1.xml文件检查；2.全选、反选功能</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
                     //获取xml版本号
                     var xmlVer = $(xml).find('version').text();
                     xmlVer = Number(xmlVer);
