@@ -1,5 +1,5 @@
 ﻿/*!
- * 修改价格javascript主程序 v4.3.0
+ * 修改价格javascript主程序 v4.3.1
  * 请在jQuery环境下执行
  *
  * Copyright GZL International Travel Sevice Ltd.
@@ -67,7 +67,7 @@ function creatXHR() {
             success: function (xml) {
                 //获取标题名称
                 var subjectTitle = (Page.getVisa() != false) ? ('签证：' + address.substr(13)) : address;
-                htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/" + address + "/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/" + address + "/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.3.0 更新日期20140427</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>1.xml文件检查；2.全选、反选功能</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
+                htmlWriter += "<h1>专辑标题：<a target='_blank' href='/subject/" + address + "/index.htm'>" + subjectTitle + "</a><i><a target='_blank' href='/subject/" + address + "/scripts/data.xml'>查看线路源数据xml</a></i><i>(线路修改页面,请使用最新版Chrome浏览器)</i>v4.3.1 更新日期20140620</h1><p><b>输入框转义符：</b><b>1.换行符，回车：</b>[br]=&lt;br/\&gt;;；<b>2.加粗：</b>[b]例子[/b]=&lt;b&gt;<b>例子</b>&lt;/b&gt;;；<b>3.字号大小(未支持)：</b>[fs=12]12号字体[/fs]=&lt;font style=\"font-size:12px\"&gt;<font style='font-size:12px'>12号字体</font>&lt;/font&gt;;；可嵌套使用。<br/><b>升级内容:</b>ui显示优化</p><div id='create' class='create'><button id='createBtn' class='createBtn'>生成静态页面</button><div id='upLoader' class='upLoader'><div class='borderBox'>HTML文件上传区<p>请拖动文件到此处</p></div></div></div>";
                 //获取xml版本号
                 var xmlVer = $(xml).find('version').text();
                 xmlVer = Number(xmlVer);
@@ -110,11 +110,12 @@ function creatXHR() {
                         var remark = new Array();
                         var remarkName = new Array();
                         var tagName = '';
+                        var remarkWidthArr=[25,100,50,33.33];
                         for (j = 0; j < ishasRemarks; j++) {
                             remark[j] = $(this).find('remark').children(':eq(' + j + ')').text();//获得备注
                             tagName = $(this).find('remark').children(':eq(' + j + ')').attr('tag');//获得备注名称
                             tagName = (tagName == undefined) ? '' : '(' + tagName + ')';
-                            remarkHTML += "<p class='remark'><span>备注" + j + tagName + ":<span> <br/><textarea id='remark' class='remark inputType editZoom title' type='text' rel=" + j + " edit-Line='" + i + "' edit-Index='5' edit-remark='" + j + "' cols='1'>" + remark[j] + "</textarea></p>";
+                            remarkHTML += "<p class='remark' style='width:"+((j>ishasRemarks-1-ishasRemarks%4)?remarkWidthArr[ishasRemarks%4]:remarkWidthArr[0])+"%'><span>备注" + j + tagName + ":<span> <br/><textarea id='remark' class='remark inputType editZoom title' type='text' rel=" + j + " edit-Line='" + i + "' edit-Index='5' edit-remark='" + j + "' cols='1'>" + remark[j] + "</textarea></p>";
                             tagName = '';
                         }
                         remarkHTML += '</td></tr>';
@@ -123,8 +124,8 @@ function creatXHR() {
                     var priceHtml = "<input id='price' type='text' value='" + price + "' class='price inputType editZoom' edit-Line='" + i + "' edit-Index='3'/>";
                     var alink = $(this).find('link').text(); //获得链接
                     var alinkHtml = "<input type='url' id='alink' class='alink inputType editZoom' value='" + alink + "' edit-Line='" + i + "' edit-Index='4'/><a href='" + alink + "' target='_blank' class='checkLink'>查看链接</a>";
-                    if (Page.getHashNumber != null && i == Page.getHashNumber) {
-                        htmlWriter += "<tr id='L" + i + "' BGCOLOR='#FFC' class='focus'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='" + tdWidth[0] + "'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml + "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>" + remarkHTML + "</table></td></tr>";
+                    if (Page.getHashNumber() != null && i == Page.getHashNumber()) {
+                        htmlWriter += "<tr id='L" + i + "' BGCOLOR='#FEF8D9' class='focus'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='" + tdWidth[0] + "'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml + "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>" + remarkHTML + "</table></td></tr>";
                     } else if (i % 2 == 0) {
                         //if (i % 2 == 0) {
                         htmlWriter += "<tr id='L" + i + "' BGCOLOR='#DDD'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='" + tdWidth[0] + "'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml + "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>" + remarkHTML + "</table></td></tr>";

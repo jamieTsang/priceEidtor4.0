@@ -137,11 +137,11 @@ public class create : IHttpHandler, IReadOnlySessionState
                         string exTxt = "";
                         switch (exNum)
                         {
-                            case "77": exTxt = "上架"; break;
-                            case "78": exTxt = "售罄"; break;
-                            case "79": exTxt = "标题"; break;
-                            case "80": exTxt = "价格"; break;
-                            case "81": exTxt = "链接"; break;
+                            case "127": exTxt = "上架"; break;
+                            case "128": exTxt = "售罄"; break;
+                            case "129": exTxt = "标题"; break;
+                            case "130": exTxt = "价格"; break;
+                            case "131": exTxt = "链接"; break;
                         }
                         context.Response.Write("data.xml文件在id号" + index + "处,缺失必要的\"" + exTxt + "\"信息！");
                         return;
@@ -169,8 +169,6 @@ public class create : IHttpHandler, IReadOnlySessionState
                             newCode = Regex.Replace(newCode, @"{line#\d+}", "");
                             newCode = Regex.Replace(newCode, @"{/line#*\d*}", "");
                             newCode = newCode.Replace("{$title}", title);
-
-
                             if (isSoldOut == "N")
                             {
                                 newCode = newCode.Replace("{$title}", title).Replace("{$price}", price).Replace("{$link}", link + "\" onclick=\"javascript:_gaq.push(['_trackEvent','点击事次数件统计','线路链接按钮点击','" + titleText.Replace("\"", "") + "']);").Replace("{$linkClass}", "").Replace("{$linkTarget}", "_blank").Replace("{$titleText}", titleText).Replace("{$linkValue}", link);
@@ -202,8 +200,6 @@ public class create : IHttpHandler, IReadOnlySessionState
                 //替换{$title}
                 string include = "";
                 StreamReader ic = null;
-                /*string RegexFootAd=@"\{$title\}";
-                var includes = Regex.Match(str,RegexFootAd);*/
                 try
                 {
                     ic = new StreamReader(context.Server.MapPath("/subject/index/header.html"), code);
@@ -243,6 +239,39 @@ public class create : IHttpHandler, IReadOnlySessionState
                finally
                 {
                    ic.Close();
+                }*/
+                /*统计代码*/
+                StreamReader stats = null;
+                string pat = @"<!-- \{\$stats#?([A-Za-z]*)\} -->";
+                string stats_addres;
+                string stats_include;
+                string stats_name;
+                /*try
+                {*/
+                    Boolean regexResult=Regex.IsMatch(str,pat,RegexOptions.IgnoreCase);
+                    if (regexResult)
+                    {
+                        Regex stats_reg = new Regex(pat);
+                        stats_name = stats_reg.Match(str).Groups[1].Value;
+                        if (!String.IsNullOrEmpty(stats_name) && stats_name == "dsp")
+                        {
+                            stats_addres = "/subject/index/stats_dsp.html";
+                        }
+                        else {
+                            stats_addres = "/subject/index/stats.html";
+                        }
+                        stats = new StreamReader(context.Server.MapPath(stats_addres), code);
+                        stats_include = stats.ReadToEnd();
+                        //str = str.Replace("<!-- {$stats} -->", include);
+                        //str = str.Replace(pat + "ig", stats_include);
+                        str = Regex.Replace(str, pat, delegate(Match m) { return stats_include; });
+                    }
+                /*}
+                catch (Exception ex)
+                { }
+                finally
+                {
+                    stats.Close();
                 }*/
                 //替换时间
                 var TimeNow = DateTime.Now;
