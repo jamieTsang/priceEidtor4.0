@@ -90,19 +90,19 @@ function creatXHR() {
                     var display = $(this).find('display').text(); //获得是否隐藏
                     var displayHTML = "";
                     if (display == "Y") {
-                        displayHTML = "<td width='" + tdWidth[1] + "'><input class='checkbox checkType editZoom' type='checkbox' checked='checked' value='Y' edit-Line='" + i + "' edit-Index='0' /></td>";
+                        displayHTML = "<td width='" + tdWidth[1] + "'><input class='checkbox checkType editZoom' type='checkbox' checked='checked' value='Y' edit-Line='" + num + "' edit-Index='0' /></td>";
                     } else {
-                        displayHTML = "<td width='" + tdWidth[1] + "'><input class='checkbox checkType editZoom' type='checkbox' value='N' edit-Line='" + i + "' edit-Index='0' /></td>";
+                        displayHTML = "<td width='" + tdWidth[1] + "'><input class='checkbox checkType editZoom' type='checkbox' value='N' edit-Line='" + num + "' edit-Index='0' /></td>";
                     }
                     var soldout = $(this).find('soldout').text(); //获得是否售罄
                     var soldoutHTML = "";
                     if (soldout == "Y") {
-                        soldoutHTML = "<td width='" + tdWidth[2] + "'><input class='soldout checkType editZoom' type='checkbox' checked='checked' value='Y' edit-Line='" + i + "' edit-Index='1' /></td>";
+                        soldoutHTML = "<td width='" + tdWidth[2] + "'><input class='soldout checkType editZoom' type='checkbox' checked='checked' value='Y' edit-Line='" + num + "' edit-Index='1' /></td>";
                     } else {
-                        soldoutHTML = "<td width='" + tdWidth[2] + "'><input class='soldout checkType editZoom' type='checkbox' value='N' edit-Line='" + i + "' edit-Index='1' /></td>";
+                        soldoutHTML = "<td width='" + tdWidth[2] + "'><input class='soldout checkType editZoom' type='checkbox' value='N' edit-Line='" + num + "' edit-Index='1' /></td>";
                     }
                     var title = $(this).find('title').text(); //获得标题
-                    var titleHtml = "<textarea id='title' name='title' class='title inputType editZoom' cols='1' edit-Line='" + i + "' edit-Index='2'>" + title + "</textarea>";
+                    var titleHtml = "<textarea id='title' name='title' class='title inputType editZoom' cols='1' edit-Line='" + num + "' edit-Index='2'>" + title + "</textarea>";
                     var ishasRemarks = $(this).find('remark').children().length;
                     var remarkHTML = '';
                     if (ishasRemarks > 0) {
@@ -115,15 +115,15 @@ function creatXHR() {
                             remark[j] = $(this).find('remark').children(':eq(' + j + ')').text();//获得备注
                             tagName = $(this).find('remark').children(':eq(' + j + ')').attr('tag');//获得备注名称
                             tagName = (tagName == undefined) ? '' : '(' + tagName + ')';
-                            remarkHTML += "<p class='remark' style='width:"+((j>ishasRemarks-1-ishasRemarks%4)?remarkWidthArr[ishasRemarks%4]:remarkWidthArr[0])+"%'><span>备注" + j + tagName + ":<span> <br/><textarea id='remark' class='remark inputType editZoom title' type='text' rel=" + j + " edit-Line='" + i + "' edit-Index='5' edit-remark='" + j + "' cols='1'>" + remark[j] + "</textarea></p>";
+                            remarkHTML += "<p class='remark' style='width:"+((j>ishasRemarks-1-ishasRemarks%4)?remarkWidthArr[ishasRemarks%4]:remarkWidthArr[0])+"%'><span>备注" + j + tagName + ":<span> <br/><textarea id='remark' class='remark inputType editZoom title' type='text' rel=" + j + " edit-Line='" + num + "' edit-Index='5' edit-remark='" + j + "' cols='1'>" + remark[j] + "</textarea></p>";
                             tagName = '';
                         }
                         remarkHTML += '</td></tr>';
                     }
                     var price = $(this).find('price').text(); //获得价格
-                    var priceHtml = "<input id='price' type='text' value='" + price + "' class='price inputType editZoom' edit-Line='" + i + "' edit-Index='3'/>";
+                    var priceHtml = "<input id='price' type='text' value='" + price + "' class='price inputType editZoom' edit-Line='" + num + "' edit-Index='3'/>";
                     var alink = $(this).find('link').text(); //获得链接
-                    var alinkHtml = "<input type='url' id='alink' class='alink inputType editZoom' value='" + alink + "' edit-Line='" + i + "' edit-Index='4'/><a href='" + alink + "' target='_blank' class='checkLink'>查看链接</a>";
+                    var alinkHtml = "<input type='url' id='alink' class='alink inputType editZoom' value='" + alink + "' edit-Line='" + num + "' edit-Index='4'/><a href='" + alink + "' target='_blank' class='checkLink'>查看链接</a>";
                     if (Page.getHashNumber() != null && i == Page.getHashNumber()) {
                         htmlWriter += "<tr id='L" + i + "' BGCOLOR='#FEF8D9' class='focus'><td colspan='6' class='cols'><table width='100%'><tr id='row'><td width='" + tdWidth[0] + "'>" + num + "</td>" + displayHTML + soldoutHTML + "<td>" + titleHtml + "</td><td>" + priceHtml + "</td><td>" + alinkHtml + "</td></tr>" + remarkHTML + "</table></td></tr>";
                     } else if (i % 2 == 0) {
