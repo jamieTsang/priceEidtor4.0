@@ -1,5 +1,5 @@
 ﻿<%@ WebHandler Language="C#" Class="create" %>
-//修改价格主程序 v4.3.0
+//修改价格主程序 v4.3.1
 using System;
 using System.Text.RegularExpressions;
 using System.Collections;
@@ -256,6 +256,10 @@ public class create : IHttpHandler, IReadOnlySessionState
                         if (!String.IsNullOrEmpty(stats_name) && stats_name == "dsp")
                         {
                             stats_addres = "/subject/index/stats_dsp.html";
+                        }
+                        if (!String.IsNullOrEmpty(stats_name) && stats_name == "google")
+                        {
+                            stats_addres = "/subject/index/stats_google.html";
                         }
                         else {
                             stats_addres = "/subject/index/stats.html";
