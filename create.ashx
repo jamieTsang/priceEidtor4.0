@@ -1,5 +1,5 @@
 ﻿<%@ WebHandler Language="C#" Class="create" %>
-//修改价格主程序 v4.3.1
+//修改价格主程序 v4.3.6
 using System;
 using System.Text.RegularExpressions;
 using System.Collections;
@@ -243,33 +243,41 @@ public class create : IHttpHandler, IReadOnlySessionState
                 /*统计代码*/
                 StreamReader stats = null;
                 string pat = @"<!-- \{\$stats#?([A-Za-z]*)\} -->";
+                string patHead = @"<!-- \{\$stats";
+                string hash = "#";
                 string stats_addres;
                 string stats_include;
                 string stats_name;
                 /*try
                 {*/
-                    Boolean regexResult=Regex.IsMatch(str,pat,RegexOptions.IgnoreCase);
-                    if (regexResult)
+                    //Boolean regexResult=Regex.IsMatch(str,pat,RegexOptions.IgnoreCase);
+                    MatchCollection MatchStats = Regex.Matches(str, pat, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                    for (int statsIndex = 0; statsIndex < MatchStats.Count; statsIndex++)
                     {
-                        Regex stats_reg = new Regex(pat);
-                        stats_name = stats_reg.Match(str).Groups[1].Value;
-                        if (!String.IsNullOrEmpty(stats_name) && stats_name == "dsp")
+                        if (MatchStats[statsIndex].Success)
                         {
-                            stats_addres = "/subject/index/stats_dsp.html";
+                            Regex stats_reg = new Regex(pat);
+                            stats_name = stats_reg.Match(str).Groups[1].Value;
+                            if (!String.IsNullOrEmpty(stats_name) && stats_name == "dsp")
+                            {
+                                stats_addres = "/subject/index/stats_dsp.html";
+                            }
+                            else if (!String.IsNullOrEmpty(stats_name) && stats_name == "google")
+                            {
+                                stats_addres = "/subject/index/stats_google.html";
+                            }
+                            else
+                            {
+                                stats_addres = "/subject/index/stats.html";
+                                hash = "";
+                            }
+                            stats = new StreamReader(context.Server.MapPath(stats_addres), code);
+                            stats_include = stats.ReadToEnd();
+
+                            str = Regex.Replace(str, patHead + hash + stats_name + @"\} -->", delegate(Match m) { return stats_include; });
                         }
-                        if (!String.IsNullOrEmpty(stats_name) && stats_name == "google")
-                        {
-                            stats_addres = "/subject/index/stats_google.html";
-                        }
-                        else {
-                            stats_addres = "/subject/index/stats.html";
-                        }
-                        stats = new StreamReader(context.Server.MapPath(stats_addres), code);
-                        stats_include = stats.ReadToEnd();
-                        //str = str.Replace("<!-- {$stats} -->", include);
-                        //str = str.Replace(pat + "ig", stats_include);
-                        str = Regex.Replace(str, pat, delegate(Match m) { return stats_include; });
                     }
+                    
                 /*}
                 catch (Exception ex)
                 { }
