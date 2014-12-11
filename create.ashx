@@ -74,6 +74,7 @@ public class create : IHttpHandler, IReadOnlySessionState
         StreamReader sr = null;
         StreamWriter sw = null;
         string str = null;
+        Boolean isStats = false;
         Encoding code = Encoding.GetEncoding("utf-8");
         /*if (strIdentify == "identified")//判断是否登录
         {*/
@@ -270,13 +271,19 @@ public class create : IHttpHandler, IReadOnlySessionState
                             {
                                 stats_addres = "/subject/index/stats.html";
                                 hash = "";
+                                if (stats_reg.Match(str).Groups[0].Value == "<!-- {$stats} -->")
+                                {
+                                    isStats=true;
+                                }
                             }
                             stats = new StreamReader(context.Server.MapPath(stats_addres), code);
                             stats_include = stats.ReadToEnd();
 
                             str = Regex.Replace(str, patHead + hash + stats_name + @"\} -->", delegate(Match m) { return stats_include; });
                         }
+                        
                     }
+                    
                     
                 /*}
                 catch (Exception ex)
@@ -306,7 +313,15 @@ public class create : IHttpHandler, IReadOnlySessionState
                     sw = new StreamWriter(mainPath + fileName, false, code);
                     sw.Write(str);
                     sw.Flush();
-                    context.Response.Write("True");
+                    if (!isStats)
+                    {
+                        context.Response.Write("True(x0001)_file=" + fileName);
+                    }
+                    else
+                    {
+                        context.Response.Write("True" + isStats);
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
