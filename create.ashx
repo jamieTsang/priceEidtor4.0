@@ -157,7 +157,7 @@ public class create : IHttpHandler, IReadOnlySessionState
                     //查找线路
                     //string reg = @"(?s){line#" + index + @"}\S*[-->]*(.*?)[<!--]*{/line#*\d*}";
                     //string reg = @"(?s)(?<={line#" + index + @"}).*?(?={/line#*\d*})";
-                    string reg = @"(?s)(?<=<!-{2}\s*){line#" + index + @"}.*?{/line#*\d*}(?=\s*-{2}>)";
+                    string reg = @"(?s)<!-{2}\s*{line#" + index + @"}.*?{/line#*\d*}\s*-{2}>";
                     Regex imgReplace = new Regex(@"([^-])\s*>");
                     if (isDisplay == "Y")
                     {
@@ -167,8 +167,8 @@ public class create : IHttpHandler, IReadOnlySessionState
                         {
                             newCode = MatchLines[ctr].Value;
                             newCode = imgReplace.Replace(newCode, "$1><img style=\"position:absolute\" class=\"pea_img\" data-index=\"" + index + "\" src=\"/static/images/blank.gif\"/>", 1);
-                            newCode = Regex.Replace(newCode, @"{line#\d+}", "");
-                            newCode = Regex.Replace(newCode, @"{/line#*\d*}", "");
+                            newCode = Regex.Replace(newCode, @"<!-{2}\s*{line#\d+}\s*-{2}>", "");
+                            newCode = Regex.Replace(newCode, @"<!-{2}\s*{/line#*\d*}\s*-{2}>", "");
                             newCode = newCode.Replace("{$title}", title);
                             if (isSoldOut == "N")
                             {
